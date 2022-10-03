@@ -35,12 +35,14 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
-    public void save(User user, String roleName) {
-        if (roleName != null) {
-            user.setRoles(getRoleList(roleName));
+    public boolean save(User user) {
+        User userFromDB = userDAO.findByUsername(user.getUsername());
+        if (userFromDB != null) {
+            return false;
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDAO.save(user);
+        return true;
     }
 
     @Override
@@ -121,7 +123,7 @@ public class UserServiceImp implements UserService {
         if (otherUser != null) {
             admin.setId(otherUser.getId());
         }
-        save(admin, null);
+        save(admin);
     }
 
     private List<Role> getRoleList(String roleName) {

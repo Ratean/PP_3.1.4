@@ -15,7 +15,6 @@ async function getUsers() {
             rows.append(row(user));
         });
     }
-
 }
 
 function row(user) {
@@ -31,9 +30,39 @@ function row(user) {
     nameTd.append(user.name);
     tr.append(nameTd);
 
+    const surnameTd = document.createElement("td");
+    surnameTd.append(user.surname);
+    tr.append(surnameTd);
+
     const ageTd = document.createElement("td");
     ageTd.append(user.age);
     tr.append(ageTd);
+
+    const emailTd = document.createElement("td");
+    emailTd.append(user.username);
+    tr.append(emailTd);
+
+    const rolesTd = document.createElement("td");
+    user.roles.forEach(role => {
+        const authority = role.name;
+        rolesTd.innerHTML += `
+        <span>${authority.substring(authority.lastIndexOf('_') + 1)}</span>
+        `;
+    });
+    tr.append(rolesTd);
+
+    tr.innerHTML += `
+        <td>
+            <button type="button" class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#editModal" data-bs-userId="${user.id}">
+                Edit
+            </button>
+        </td>
+        <td>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-userId="${user.id}">
+                Delete
+            </button>
+        </td>
+    `;
 
     return tr;
 }

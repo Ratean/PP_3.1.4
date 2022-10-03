@@ -104,19 +104,52 @@
                                                     nameTd.append(user.name);
                                                     tr.append(nameTd);
 
+                                                    const surnameTd = document.createElement("td");
+                                                    surnameTd.append(user.surname);
+                                                    tr.append(surnameTd);
+
                                                     const ageTd = document.createElement("td");
                                                     ageTd.append(user.age);
                                                     tr.append(ageTd);
 
+                                                    const emailTd = document.createElement("td");
+                                                    emailTd.append(user.username);
+                                                    tr.append(emailTd);
+
+                                                    const rolesTd = document.createElement("td");
+                                                    user.roles.forEach(role => {
+                                                        const authority = role.name;
+                                                        rolesTd.innerHTML += `
+                                                        <span>${authority.substring(authority.lastIndexOf('_') + 1)}</span>
+                                                        `;
+                                                    });
+                                                    tr.append(rolesTd);
+
+                                                    tr.innerHTML += `
+                                                            <td>
+                                                                <button type="button" class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#editModal" data-bs-userId="${user.id}">
+                                                                    Edit
+                                                                </button>
+                                                            </td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-bs-userId="${user.id}">
+                                                                    Delete
+                                                                </button>
+                                                            </td>
+                                                    `;
+
                                                     return tr;
                                                 }
+
                                             </script>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
+
                         <!-- Add new user tab -->
+
                         <div class="tab-pane fade" id="nav-newUser" role="tabpanel"
                              aria-labelledby="nav-newUser-tab">
                             <div class="card">
@@ -149,6 +182,7 @@
                 </div>
 
                 <!-- Modal for EDIT button -->
+
                 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -231,7 +265,52 @@
         integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
         crossorigin="anonymous"></script>
 
+<!--js new user-->
 
-<script src="row.js"></script>
+<script>
+        document.getElementById('createUserForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+        //Gather new user info into object
+
+        const newUserRoles = [];
+        if (document.getElementById('newRoleUser').selected) newUserRoles.push({id: 2, authority: 'ROLE_USER'});
+        if (document.getElementById('newRoleAdmin').selected) newUserRoles.push({id: 1, authority: 'ROLE_ADMIN'});
+        const newUser = {
+            name: document.getElementById('newUserFirstName').value,
+            surname: document.getElementById('newUserLastName').value,
+            age: document.getElementById('newUserAge').value,
+            username: document.getElementById('newUserEmail').value,
+            password: document.getElementById('newUserPassword').value,
+            roles: newUserRoles
+        };
+
+        fetch("/api", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(newUser)
+        })
+
+            document.getElementById('newUserFirstName').value = '';
+            document.getElementById('newUserLastName').value = '';
+            document.getElementById('newUserAge').value = '';
+            document.getElementById('newUserEmail').value = '';
+            document.getElementById('newUserPassword').value = '';
+            document.getElementById('newRoleUser').selected = true;
+            document.getElementById('newRoleAdmin').selected = false;
+
+        document.getElementById("nav-usersTable-tab").click();
+        // document.getElementById("usersTablePlacement").remove();
+        getUsers();
+
+    })
+</script>
+
+<script src="GetUser.js"></script>
+
+<!--<script>-->
+<!--    getUsers();-->
+<!--</script>-->
 </body>
 </html>

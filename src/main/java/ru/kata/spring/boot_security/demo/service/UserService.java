@@ -13,7 +13,7 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
 
     User findByUsername(String username);
-    void save(User user, String roleName);
+    boolean save(User user);
     void update(User user);
     void delete(long id);
     User getUser(long id);
