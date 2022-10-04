@@ -47,11 +47,10 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
-    public void update(User user) {
+    public boolean update(User user) {
         if (userDAO.findByUsername(user.getUsername()) != null &&
                 userDAO.findByUsername(user.getUsername()).getId() != user.getId()) {
-            throw new InvalidParameterException("Cannot save user, such email already exists in the database: "
-                    + user.getUsername());
+            return false;
         }
         if (user.getPassword().isEmpty()) {
             user.setPassword(userDAO.findById(user.getId()).get().getPassword());
@@ -59,18 +58,23 @@ public class UserServiceImp implements UserService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         userDAO.save(user);
+        return true;
     }
 
     @Override
     @Transactional
-    public void delete(long id) {
-        userDAO.delete(userDAO.getById(id));
+    public boolean delete(long id) {
+        if (userDAO.findById(id).isEmpty()) {
+            return false;
+        }
+        userDAO.deleteById(id);
+        return true;
     }
 
     @Override
     @Transactional
     public User getUser(long id) {
-        return userDAO.getById(id);
+        return userDAO.findById(id).get();
     }
 
     @Override

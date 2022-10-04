@@ -36,4 +36,29 @@ public class AdminRESTController {
         }
         return new ResponseEntity<>(user, HttpStatus.CONFLICT);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable long id) {
+        User user = userService.getUser(id);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    @PutMapping
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        if (userService.update(user)) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable long id) {
+        if (userService.delete(id)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
 }

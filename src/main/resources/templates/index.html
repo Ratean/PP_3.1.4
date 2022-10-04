@@ -83,7 +83,8 @@
                                                     if (response.ok === true) {
                                                         // получаем данные
                                                         const users = await response.json();
-                                                        let rows = document.getElementById("usersTablePlacement")
+                                                        let rows = document.getElementById("usersTablePlacement");
+                                                        // let rows = document.querySelector("tbody");
                                                         users.forEach(user => {
                                                             // добавляем полученные элементы в таблицу
                                                             rows.append(row(user));
@@ -204,6 +205,7 @@
                 </div>
 
                 <!-- Modal for DELETE button -->
+
                 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -211,9 +213,9 @@
                                 <h4 class="modal-title">Delete user</h4>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-<!--                            <div id="deleteModalContent" class="modal-body">-->
-<!--                                &lt;!&ndash; Fills with JS &ndash;&gt;-->
-<!--                            </div>-->
+                            <div id="deleteModalContent" class="modal-body">
+                                <!-- Fills with JS -->
+                            </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary fs-5" data-bs-dismiss="modal">Close</button>
                                 <form id="deleteForm">
@@ -225,7 +227,9 @@
                 </div>
 
             </div>
+
             <!-- Content for All Roles -->
+
             <div th:class="${isAdmin} ? 'tab-pane fade' : 'tab-pane fade show active'"
                  id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
                 <div class="container-fluid bg-light px-4 py-3 g-0">
@@ -290,6 +294,9 @@
                 "Content-type": "application/json"
             },
             body: JSON.stringify(newUser)
+        }).then(() => {
+            document.getElementById("usersTablePlacement").innerHTML = '';
+            getUsers();
         })
 
             document.getElementById('newUserFirstName').value = '';
@@ -301,13 +308,17 @@
             document.getElementById('newRoleAdmin').selected = false;
 
         document.getElementById("nav-usersTable-tab").click();
-        // document.getElementById("usersTablePlacement").remove();
-        getUsers();
 
     })
+
+
+
 </script>
 
-<script src="GetUser.js"></script>
+<script src="EditModal.js"></script>
+<script src="EditUser.js"></script>
+<script src="DeleteUser.js"></script>
+<script src="DeleteModal.js"></script>
 
 <!--<script>-->
 <!--    getUsers();-->
