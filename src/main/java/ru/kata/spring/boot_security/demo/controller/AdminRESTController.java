@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -60,5 +61,10 @@ public class AdminRESTController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<User> showUser(Principal principal) {
+        return new ResponseEntity<>(userService.findByUsername(principal.getName()), HttpStatus.OK);
     }
 }

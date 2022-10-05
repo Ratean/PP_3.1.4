@@ -10,4 +10,6 @@ document.getElementById('deleteForm').addEventListener('submit', async (event) =
     if (response.ok === true) {
 
     }
+    document.getElementById("usersTablePlacement").innerHTML = '';
+    showAllUsers();
 });

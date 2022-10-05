@@ -11,7 +11,6 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.annotation.PostConstruct;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 

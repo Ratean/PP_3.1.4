@@ -1,4 +1,4 @@
-async function getUsers() {
+async function showAllUsers() {
 
     // отправляет запрос и получаем ответ
     const response = await fetch("/api", {

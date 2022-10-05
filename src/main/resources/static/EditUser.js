@@ -14,13 +14,13 @@ document.getElementById('editForm').addEventListener('submit', (event) => {
         password: document.getElementById('passwordEdit').value,
         roles: userRolesEdited
     };
-    fetch("/api", {
+    fetch("http://localhost:8080/api", {
         method: "PUT",
-        headers: {"Accept": "application/json"},
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(userEdited)
     }).then(() => {
         document.getElementById("usersTablePlacement").innerHTML = '';
-        getUsers();
+        showAllUsers();
     });
     document.getElementById('buttonCloseModal').click();
 });

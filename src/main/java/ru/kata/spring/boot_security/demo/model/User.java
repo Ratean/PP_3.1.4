@@ -1,18 +1,9 @@
 package ru.kata.spring.boot_security.demo.model;
 
-
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -112,17 +103,6 @@ public class User implements UserDetails {
         if (!password.equals(user.password)) return false;
         if (!username.equals(user.username)) return false;
         return roles.equals(user.roles);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + (surname != null ? surname.hashCode() : 0);
-        result = 31 * result + password.hashCode();
-        result = 31 * result + age;
-        result = 31 * result + username.hashCode();
-        result = 31 * result + roles.hashCode();
-        return result;
     }
 
 }
